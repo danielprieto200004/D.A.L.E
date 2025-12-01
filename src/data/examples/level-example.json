@@ -1,0 +1,232 @@
+{
+  "id": "level-001-la-decision-critica",
+  "chapter": 1,
+  "title": "La Decisión Crítica",
+  "description": "Eres el nuevo Data Analyst de una startup tecnológica. Tu primera tarea: decidir si lanzar un producto basado en datos limitados.",
+  
+  "context": {
+    "scenario": "Oficina de la startup TechFlow, 9:00 AM. Reunión de lanzamiento de producto.",
+    "role": "Data Analyst Senior",
+    "objective": "Decidir si proceder con el lanzamiento del producto 'FlowApp' basándote en los datos disponibles",
+    "background": "La empresa ha invertido 6 meses en desarrollo. El CEO necesita una decisión hoy para mantener el momentum del equipo.",
+    "characters": [
+      {
+        "id": "ceo-maria",
+        "name": "María González",
+        "role": "CEO",
+        "avatar": "/avatars/ceo-maria.jpg"
+      },
+      {
+        "id": "cto-carlos",
+        "name": "Carlos Ramírez",
+        "role": "CTO",
+        "avatar": "/avatars/cto-carlos.jpg"
+      }
+    ]
+  },
+  
+  "data": {
+    "dashboard": {
+      "title": "Dashboard de Lanzamiento - FlowApp",
+      "description": "Métricas clave del producto antes del lanzamiento",
+      "dataPoints": [
+        {
+          "id": "user-testing-score",
+          "label": "Puntuación de Pruebas de Usuario",
+          "value": 7.2,
+          "unit": "/10",
+          "trend": "up",
+          "visualization": "metric",
+          "description": "Promedio de satisfacción en pruebas beta con 50 usuarios"
+        },
+        {
+          "id": "market-size",
+          "label": "Tamaño del Mercado",
+          "value": 2500000,
+          "unit": "usuarios potenciales",
+          "trend": "stable",
+          "visualization": "bar",
+          "description": "Proyección basada en análisis de mercado"
+        },
+        {
+          "id": "competition-level",
+          "label": "Nivel de Competencia",
+          "value": "Alto",
+          "trend": "up",
+          "visualization": "metric",
+          "description": "3 competidores principales con productos similares"
+        },
+        {
+          "id": "development-cost",
+          "label": "Costo de Desarrollo",
+          "value": 450000,
+          "unit": "USD",
+          "trend": "stable",
+          "visualization": "bar",
+          "description": "Inversión total hasta la fecha"
+        },
+        {
+          "id": "projected-revenue-month1",
+          "label": "Proyección de Ingresos (Mes 1)",
+          "value": 125000,
+          "unit": "USD",
+          "trend": "down",
+          "visualization": "line",
+          "description": "Estimación conservadora basada en modelos predictivos"
+        }
+      ]
+    },
+    "additionalContext": {
+      "reports": [
+        "Análisis de mercado Q4 2024",
+        "Reporte de pruebas de usabilidad"
+      ],
+      "emails": [
+        "Email del CEO: 'Necesitamos una decisión hoy'",
+        "Email del CTO: 'El producto está técnicamente listo'"
+      ]
+    }
+  },
+  
+  "options": [
+    {
+      "id": "opt-launch-now",
+      "text": "Lanzar Ahora",
+      "description": "Proceder con el lanzamiento inmediato. Confiar en los datos actuales y el momentum del equipo.",
+      "dataImpact": [
+        {
+          "dataPointId": "projected-revenue-month1",
+          "change": 0.15,
+          "reason": "Lanzamiento temprano puede capturar mercado antes que competencia"
+        }
+      ],
+      "riskLevel": "high",
+      "icon": "rocket"
+    },
+    {
+      "id": "opt-delay-2weeks",
+      "text": "Retrasar 2 Semanas",
+      "description": "Solicitar más tiempo para recopilar datos adicionales de pruebas de usuario y análisis de mercado.",
+      "dataImpact": [
+        {
+          "dataPointId": "user-testing-score",
+          "change": 0.8,
+          "reason": "Más tiempo permitirá mejorar basado en feedback"
+        },
+        {
+          "dataPointId": "development-cost",
+          "change": 50000,
+          "reason": "Costo adicional de desarrollo y pruebas"
+        }
+      ],
+      "riskLevel": "medium",
+      "icon": "clock"
+    },
+    {
+      "id": "opt-pivot-strategy",
+      "text": "Pivotear Estrategia",
+      "description": "Recomendar un cambio de enfoque basado en los datos que muestran alta competencia y proyecciones conservadoras.",
+      "dataImpact": [
+        {
+          "dataPointId": "market-size",
+          "change": -0.3,
+          "reason": "Enfoque en nicho más específico reduce mercado total"
+        },
+        {
+          "dataPointId": "projected-revenue-month1",
+          "change": 0.25,
+          "reason": "Mejor posicionamiento en nicho puede aumentar conversión"
+        }
+      ],
+      "riskLevel": "low",
+      "icon": "target"
+    }
+  ],
+  
+  "consequences": {
+    "opt-launch-now": {
+      "id": "cons-launch-success",
+      "title": "Lanzamiento Exitoso",
+      "description": "El producto se lanza y captura atención temprana. Los primeros usuarios reportan satisfacción, pero algunos bugs críticos aparecen.",
+      "dataChanges": [
+        {
+          "dataPointId": "projected-revenue-month1",
+          "newValue": 143750,
+          "explanation": "Lanzamiento temprano capturó 15% más de ingresos proyectados"
+        }
+      ],
+      "nextLevelId": "level-002-gestion-crisis",
+      "endingType": "branch",
+      "scoreImpact": {
+        "dataScore": 75,
+        "reasoning": "Buena decisión basada en datos, pero falta de preparación para problemas técnicos"
+      }
+    },
+    "opt-delay-2weeks": {
+      "id": "cons-delay-improved",
+      "title": "Mejora Significativa",
+      "description": "El retraso permite implementar mejoras críticas. El lanzamiento es más sólido, pero la competencia lanzó primero.",
+      "dataChanges": [
+        {
+          "dataPointId": "user-testing-score",
+          "newValue": 8.0,
+          "explanation": "Mejoras implementadas aumentaron satisfacción del usuario"
+        },
+        {
+          "dataPointId": "development-cost",
+          "newValue": 500000,
+          "explanation": "Costo adicional de $50,000 por el retraso"
+        }
+      ],
+      "nextLevelId": "level-002-competencia-adelante",
+      "endingType": "branch",
+      "scoreImpact": {
+        "dataScore": 85,
+        "reasoning": "Decisión prudente que mejoró el producto, pero perdió ventaja competitiva"
+      }
+    },
+    "opt-pivot-strategy": {
+      "id": "cons-pivot-strategic",
+      "title": "Estrategia Reposicionada",
+      "description": "El pivot permite un posicionamiento más claro. El CEO está impresionado con tu análisis, pero el equipo necesita tiempo para adaptarse.",
+      "dataChanges": [
+        {
+          "dataPointId": "market-size",
+          "newValue": 1750000,
+          "explanation": "Enfoque en nicho redujo mercado total pero aumentó calidad del target"
+        },
+        {
+          "dataPointId": "projected-revenue-month1",
+          "newValue": 156250,
+          "explanation": "Mejor posicionamiento aumentó tasa de conversión proyectada"
+        }
+      ],
+      "nextLevelId": "level-002-nuevo-enfoque",
+      "endingType": "success",
+      "scoreImpact": {
+        "dataScore": 95,
+        "reasoning": "Excelente análisis de datos que llevó a una decisión estratégica superior"
+      }
+    }
+  },
+  
+  "config": {
+    "timeLimit": 300,
+    "minOptionsToShow": 3,
+    "allowBacktrack": false,
+    "difficulty": "medium"
+  },
+  
+  "metadata": {
+    "estimatedDuration": 15,
+    "tags": ["lanzamiento", "decisión estratégica", "análisis de datos", "startup"],
+    "learningObjectives": [
+      "Interpretar dashboards de métricas de negocio",
+      "Tomar decisiones basadas en datos incompletos",
+      "Evaluar trade-offs entre velocidad y calidad",
+      "Comunicar recomendaciones de datos a stakeholders"
+    ],
+    "prerequisites": []
+  }
+}
+

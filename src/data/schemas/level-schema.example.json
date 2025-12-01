@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DALE Level Schema",
+  "description": "Estructura JSON para niveles narrativos interactivos del ecosistema DALE",
+  "type": "object",
+  "required": ["id", "chapter", "title", "description", "context", "data", "options", "consequences", "config", "metadata"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identificador único del nivel"
+    },
+    "chapter": {
+      "type": "number",
+      "description": "Número de capítulo dentro de la historia"
+    },
+    "title": {
+      "type": "string",
+      "description": "Título del nivel"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripción breve del nivel"
+    },
+    "context": {
+      "type": "object",
+      "required": ["scenario", "role", "objective"],
+      "properties": {
+        "scenario": {
+          "type": "string",
+          "description": "Escenario donde transcurre la historia"
+        },
+        "role": {
+          "type": "string",
+          "description": "Rol que desempeña el usuario"
+        },
+        "objective": {
+          "type": "string",
+          "description": "Objetivo principal del nivel"
+        },
+        "background": {
+          "type": "string",
+          "description": "Contexto adicional de la historia"
+        },
+        "characters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "role": { "type": "string" },
+              "avatar": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": ["dashboard"],
+      "properties": {
+        "dashboard": {
+          "type": "object",
+          "required": ["title", "dataPoints"],
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "dataPoints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "label", "value"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "label": { "type": "string" },
+                  "value": { "type": ["number", "string"] },
+                  "unit": { "type": "string" },
+                  "trend": { "type": "string", "enum": ["up", "down", "stable"] },
+                  "visualization": { "type": "string", "enum": ["bar", "line", "pie", "metric"] },
+                  "description": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "text"],
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string" },
+          "description": { "type": "string" },
+          "dataImpact": { "type": "array" },
+          "riskLevel": { "type": "string", "enum": ["low", "medium", "high"] },
+          "icon": { "type": "string" }
+        }
+      }
+    },
+    "consequences": {
+      "type": "object",
+      "description": "Mapeo de optionId a consecuencia",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "title", "description"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "dataChanges": { "type": "array" },
+          "nextLevelId": { "type": "string" },
+          "endingType": { "type": "string", "enum": ["success", "failure", "neutral", "branch"] },
+          "scoreImpact": { "type": "object" }
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "required": ["difficulty"],
+      "properties": {
+        "timeLimit": { "type": "number" },
+        "minOptionsToShow": { "type": "number" },
+        "allowBacktrack": { "type": "boolean" },
+        "difficulty": { "type": "string", "enum": ["easy", "medium", "hard", "expert"] }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["estimatedDuration", "tags", "learningObjectives"],
+      "properties": {
+        "estimatedDuration": { "type": "number" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "learningObjectives": { "type": "array", "items": { "type": "string" } },
+        "prerequisites": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
+
