@@ -50,13 +50,29 @@ Vercel detectará automáticamente que es un proyecto **Next.js**. Verifica esta
 
 ---
 
-### Paso 4: Variables de Entorno (Opcional)
+### Paso 4: Variables de Entorno (⚠️ IMPORTANTE)
 
-Si tu proyecto necesita variables de entorno:
+D.A.L.E necesita las variables de entorno de Supabase para funcionar:
 
 1. Expande la sección **"Environment Variables"**
-2. Agrega las variables necesarias (Nombre y Valor)
-3. Por ahora, D.A.L.E no requiere variables de entorno
+2. Agrega estas dos variables:
+
+   **Variable 1:**
+   - **Name:** `NEXT_PUBLIC_SUPABASE_URL`
+   - **Value:** Tu URL de proyecto Supabase (ejemplo: `https://xxxxx.supabase.co`)
+   - Selecciona todas las opciones (Production, Preview, Development)
+
+   **Variable 2:**
+   - **Name:** `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - **Value:** Tu clave anon/public de Supabase
+   - Selecciona todas las opciones (Production, Preview, Development)
+
+> 📝 **Para obtener estas credenciales:**
+> 1. Ve a https://app.supabase.com
+> 2. Selecciona tu proyecto → Settings → API
+> 3. Copia "Project URL" y "anon/public key"
+
+> ⚠️ **IMPORTANTE:** Si agregas las variables después del primer deploy, necesitarás **redesplegar** la aplicación para que surtan efecto (Settings → Environment Variables → Redeploy).
 
 ---
 
