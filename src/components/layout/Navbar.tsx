@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
+import { signOut } from "@/lib/auth";
 
-const navLinks = [
+const publicNavLinks = [
   { href: "/", label: "Inicio" },
   { href: "/filosofia", label: "Filosofía" },
   { href: "/ecosistema", label: "Ecosistema" },
@@ -15,9 +17,26 @@ const navLinks = [
   { href: "/precios", label: "Precios" },
 ];
 
+const authNavLinks = [
+  { href: "/", label: "Hub" },
+  { href: "/simuladores", label: "Simuladores" },
+  { href: "/experiencias", label: "Experiencias" },
+  { href: "/dashboard", label: "Dashboard" },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const { user, loading } = useAuth();
+
+  const navLinks = user ? authNavLinks : publicNavLinks;
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+    router.refresh();
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0D1117]/90 backdrop-blur-md border-b border-[#30363D]">
@@ -45,14 +64,35 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button / User Menu */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm">
-              Iniciar Sesión
-            </Button>
-            <Button size="sm">
-              Comenzar Gratis
-            </Button>
+            {!loading && (
+              <>
+                {user ? (
+                  <>
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link href="/dashboard">
+                        <User className="w-4 h-4 mr-2" />
+                        Mi Perfil
+                      </Link>
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Salir
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link href="/auth/login">Iniciar Sesión</Link>
+                    </Button>
+                    <Button size="sm" asChild>
+                      <Link href="/auth/register">Comenzar Gratis</Link>
+                    </Button>
+                  </>
+                )}
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -88,14 +128,37 @@ export default function Navbar() {
                     {link.label}
                   </Link>
                 ))}
-                <div className="pt-4 px-4 space-y-2">
-                  <Button variant="secondary" className="w-full">
-                    Iniciar Sesión
+                {!loading && (
+                  <div className="pt-4 px-4 space-y-2">
+                    {user ? (
+                      <>
+                        <Button variant="secondary" className="w-full" asChild>
+                          <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                            <User className="w-4 h-4 mr-2" />
+                            Mi Perfil
+                          </Link>
+                        </Button>
+                        <Button className="w-full" onClick={() => { setIsOpen(false); handleSignOut(); }}>
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Cerrar Sesión
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button variant="secondary" className="w-full" asChild>
+                          <Link href="/auth/login" onClick={() => setIsOpen(false)}>
+                            Iniciar Sesión
+                          </Link>
+                        </Button>
+                  <Button className="w-full" asChild>
+                    <Link href="/auth/register" onClick={() => setIsOpen(false)}>
+                      Comenzar Gratis
+                    </Link>
                   </Button>
-                  <Button className="w-full">
-                    Comenzar Gratis
-                  </Button>
-                </div>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Users, Target, Zap, BarChart3, Database, Lightbulb, Gamepad2, Rocket } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import UserHub from "@/components/Hub/UserHub";
 
 const stats = [
   { value: "4", label: "Experiencias", suffix: "" },
@@ -105,6 +107,24 @@ const FloatingParticles = () => {
 
 export default function Home() {
   const [hoveredLetter, setHoveredLetter] = useState<number | null>(null);
+  const { user, loading } = useAuth();
+
+  // Si el usuario está autenticado, mostrar el Hub personalizado
+  if (!loading && user) {
+    return <UserHub />;
+  }
+
+  // Si no está autenticado o está cargando, mostrar landing pública
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0D1117]">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-[#98CA3F] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-400">Cargando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
