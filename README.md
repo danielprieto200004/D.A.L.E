@@ -2,6 +2,8 @@
 
 Plataforma SaaS de educación en data con experiencias inmersivas tipo videojuego.
 
+> 📖 **¿Trabajando desde otro computador?** Ver [README_SETUP.md](./README_SETUP.md) para la guía completa de configuración.
+
 ## 🚀 Inicio Rápido
 
 ```bash
