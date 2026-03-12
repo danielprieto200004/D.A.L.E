@@ -17,9 +17,7 @@ import {
   Sparkles,
   Rocket,
 } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { useEffect, useState } from "react";
-import { getUserProfile } from "@/lib/auth";
+import { useState } from "react";
 
 const quickAccess = [
   {
@@ -82,36 +80,11 @@ const featuredSimulators = [
 ];
 
 export default function UserHub() {
-  const { user } = useAuth();
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [user] = useState<{ email: string } | null>({ email: "demo@dale-hub.app" });
+  const userProfile: "kids" | "citizen" | "literacy" | "strategy" | null = null;
 
-  useEffect(() => {
-    if (user) {
-      getUserProfile(user.id).then((data) => {
-        setProfile(data);
-        setLoading(false);
-      });
-    }
-  }, [user]);
-
-  const userProfile = profile?.dale_profile as "kids" | "citizen" | "literacy" | "strategy" | null;
-  
-  // Filtrar experiencias según el perfil del usuario
-  const recommendedExperiences = userProfile 
-    ? quickAccess.filter(exp => exp.id === userProfile)
-    : quickAccess;
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0D1117]">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#98CA3F] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">Cargando tu Hub...</p>
-        </div>
-      </div>
-    );
-  }
+  // Sin perfil dinámico: mostramos todas las experiencias
+  const recommendedExperiences = quickAccess;
 
   return (
     <div className="min-h-screen bg-[#0D1117]">
