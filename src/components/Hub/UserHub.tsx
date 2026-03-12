@@ -131,7 +131,7 @@ export default function UserHub() {
                 <div className="flex items-center gap-3">
                   <Trophy className="w-6 h-6 text-[#98CA3F]" />
                   <div className="text-left">
-                    <div className="text-2xl font-bold text-white">{profile?.data_score || 0}</div>
+                    <div className="text-2xl font-bold text-white">0</div>
                     <div className="text-xs text-gray-500">Data Score</div>
                   </div>
                 </div>
