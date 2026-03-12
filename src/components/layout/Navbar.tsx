@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAuth } from "@/hooks/useAuth";
-import { signOut } from "@/lib/auth";
 
 const publicNavLinks = [
   { href: "/", label: "Inicio" },
@@ -28,12 +26,12 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { user, loading } = useAuth();
+  const user = null;
+  const loading = false;
 
   const navLinks = user ? authNavLinks : publicNavLinks;
 
   const handleSignOut = async () => {
-    await signOut();
     router.push("/");
     router.refresh();
   };
