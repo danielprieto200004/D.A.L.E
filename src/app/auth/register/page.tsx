@@ -4,7 +4,6 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -199,7 +198,7 @@ function RegisterPageContent() {
     setError(null);
   };
 
-    const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!validateStep(5) || !daleProfile) {
       setError("Por favor completa todos los pasos");
       return;
@@ -208,74 +207,13 @@ function RegisterPageContent() {
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
-    
-    // Crear cuenta de autenticación
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-      options: {
-        data: {
-          full_name: formData.fullName,
-        },
-      },
-    });
-
-    if (signUpError) {
-      setError(signUpError.message);
-      setLoading(false);
-      return;
-    }
-
-    // Esperar a que se cree el perfil automáticamente
-    if (data.user) {
-      // Esperar un poco más para que el trigger cree el perfil
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Intentar actualizar el perfil con todos los campos
-      // Los campos demográficos pueden no existir si no se ejecutaron los scripts SQL
-      try {
-        const { error: profileError } = await supabase
-          .from("user_profiles")
-          .update({
-            dale_profile: daleProfile,
-            age: parseInt(formData.age),
-            gender: formData.gender as any,
-            country: formData.country,
-            city: formData.city || null,
-            occupation: formData.occupation,
-            education_level: formData.educationLevel as any,
-            company_size: formData.companySize || null,
-            industry: formData.industry || null,
-            data_experience: formData.dataExperience as any,
-            interests: formData.interests,
-          })
-          .eq("user_id", data.user!.id);
-
-        if (profileError) {
-          console.error("Error updating full profile:", profileError);
-          
-          // Intentar solo con dale_profile si falla la actualización completa
-          const { error: basicError } = await supabase
-            .from("user_profiles")
-            .update({ dale_profile: daleProfile })
-            .eq("user_id", data.user!.id);
-
-          if (basicError) {
-            console.error("Error updating basic profile:", basicError);
-          }
-          
-          // Mostrar advertencia pero continuar
-          console.warn("Algunos datos del perfil no se pudieron guardar. Ejecuta los scripts SQL en Supabase.");
-        }
-      } catch (err) {
-        console.error("Error en actualización de perfil:", err);
-      }
-
+    // Registro desactivado: simular creación de cuenta sin backend
+    setTimeout(() => {
       sessionStorage.removeItem("selectedDaleProfile");
+      setLoading(false);
       router.push("/dashboard");
       router.refresh();
-    }
+    }, 800);
   };
 
 

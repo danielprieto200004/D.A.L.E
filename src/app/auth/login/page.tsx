@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { ArrowRight, Mail, Lock, Loader2 } from "lucide-react";
 
@@ -20,19 +19,12 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      setError(error.message);
+    // Autenticación desactivada: simular login directo
+    setTimeout(() => {
       setLoading(false);
-    } else {
       router.push("/dashboard");
       router.refresh();
-    }
+    }, 500);
   };
 
   return (

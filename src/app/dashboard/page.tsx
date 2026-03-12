@@ -3,10 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
-import { getUserProfile } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { signOut } from "@/lib/auth";
 import { 
   User, 
   LogOut, 
@@ -20,33 +17,15 @@ import Link from "next/link";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [user] = useState<any>({ email: "demo@dale-hub.app" });
+  const [profile, setProfile] = useState<any>({ data_score: 0, bio: "Explorando D.A.L.E sin cuenta creada aún." });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function loadUser() {
-      const supabase = createClient();
-      const {
-        data: { user: currentUser },
-      } = await supabase.auth.getUser();
-
-      if (!currentUser) {
-        router.push("/auth/login");
-        return;
-      }
-
-      setUser(currentUser);
-      const userProfile = await getUserProfile(currentUser.id);
-      setProfile(userProfile);
-      setLoading(false);
-    }
-
-    loadUser();
+    // Autenticación desactivada: no cargamos nada de Supabase
   }, [router]);
 
   const handleSignOut = async () => {
-    await signOut();
     router.push("/");
     router.refresh();
   };
