@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -17,8 +17,6 @@ import {
   BarChart3,
   TrendingDown,
 } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { getUserProfile } from "@/lib/auth";
 
 type DaleProfile = "kids" | "citizen" | "literacy" | "strategy";
 type SimulatorCategory = "all" | DaleProfile;
@@ -236,25 +234,9 @@ const categoryIcons: Record<DaleProfile, any> = {
 };
 
 export default function SimuladoresPage() {
-  const { user } = useAuth();
-  const [profile, setProfile] = useState<any>(null);
   const [selectedCategory, setSelectedCategory] = useState<SimulatorCategory>("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (user) {
-      getUserProfile(user.id).then((data) => {
-        setProfile(data);
-        if (data?.dale_profile) {
-          setSelectedCategory(data.dale_profile);
-        }
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+  const [loading] = useState(false);
 
   const filteredSimulators = allSimulators.filter((sim) => {
     const matchesCategory = selectedCategory === "all" || sim.category === selectedCategory;
